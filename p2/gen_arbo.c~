@@ -1,0 +1,28 @@
+#include "header.h"
+#include <stdlib.h> //malloc
+#include <string.h> 
+#include <stdio.h> // printf
+
+/*size: taille du buffer 
+ buffer: chaine de caractere representant le répertoire dans lequel le fichier dont les infos données par la structure info sera stocké
+*/
+//root_folder/By_Artit/Lettre/artiste/artist - album/
+const char *get_artist_folder(char *buffer, int size, const char *root_folder, const sort_info_t *info){
+	snprintf(buffer,size,"%sBy_artiste/%c/%s/%s - %s/",root_folder,(info->artiste)[0],info->artiste,info->artiste,info->album);
+	return buffer;
+}
+
+//root_folder/By_Genre/genre/artiste/artiste - album/
+const char *get_genre_folder(char *buffer, int size, const char *root_folder, const sort_info_t *info){
+	snprintf(buffer,size,"%sBy_Genre/%s/%s/%s - %s/",root_folder,info->genre,info->artiste,info->artiste, info->album);
+	return buffer;
+}
+
+int check_and_create_folder(const char *path){
+	return 0;
+}
+
+int create_tree(const char *fullpath){
+	return 0;
+}
+

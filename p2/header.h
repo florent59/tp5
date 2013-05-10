@@ -1,0 +1,40 @@
+#ifndef HEADER_H 
+#define HEADER_H
+
+typedef struct {
+	char* artiste;
+	char* album;
+	char* genre;
+	char* titre;
+	char* numero;
+
+}sort_info_t;
+
+//2.1
+const char* get_file_extension(const char* file);
+
+void clean_string(char* s);
+
+//2.2
+int get_file_info(const char *source_file, sort_info_t *info);
+
+//2.3
+const char *get_artist_folder(char *buffer, int size, const char *root_folder, const sort_info_t *info);
+
+const char *get_genre_folder(char *buffer, int size, const char *root_folder, const sort_info_t *info);
+
+int check_and_create_folder(const char *path);
+
+int create_tree(const char *fullpath);
+
+//2.4
+const char *get_file_name(char *buffer, int size, const sort_info_t *info, const char *ext);
+
+int sort_file(const char *root_folder, const char *source_file);
+
+
+// methodes outils 
+void affiche_info(sort_info_t* t);
+#endif
+
+
