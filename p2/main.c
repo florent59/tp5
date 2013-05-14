@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -24,7 +23,6 @@ void main(int argc, char**argv){
 			traitement(root_folder,argv[cmp]);
 		}else
 			printf("fichier inexiste\n");
-	
 	}
 }
 void traitement(char* root, char* source){
@@ -34,29 +32,41 @@ void traitement(char* root, char* source){
 		printf("est un repertoire \n");
 		trait_DIR(source,root);
 	}else{
-		printf("n'est pas un dossier\n");
+	//	printf("n'est pas un dossier\n");
 		sort_file(root,source);			
 	}
 }
 
+char* path(char*,char*);
+
 void trait_DIR(char* source,char* root){
-//	printf("%s pwd: :  \n",getenv("PWD"));
-//	DIR* dir = (DIR*) malloc(sizeof(DIR));
-//	if(!dir)return;
 	//ouvrir fichier 
 	DIR* dir=opendir(source);
 	if(!dir)
 		printf(" ERROR trait_DIR\n");
 	//tant que fichier non vide 
-	struct dirent* dossier= (struct dirent*) malloc(sizeof(struct dirent));
-	dossier=readdir(dir);
-	while(dossier!=NULL){
-		printf("result:  %s\n",dossier->d_name);
-		//allocation du chemin du source 
-		traitement(root,dossier->d_name);
-		dossier=readdir(dir);		
+	struct dirent* fichier= (struct dirent*) malloc(sizeof(struct dirent));
+	fichier=readdir(dir);
+	while(fichier!=NULL){
+		//si le fichier n'est pas caché ou si fichier './' '../'
+		if(fichier->d_name[0] != '.'){
+			//allocation du chemin du source 
+			char* chemin= path(source,fichier->d_name);		
+			printf("chemin :%s\n",chemin);
+			traitement(root,chemin);
+			free(chemin);
+		}
+			fichier=readdir(dir);		
 	}
 	//fermer fichier
 	closedir(dir);
+}
+
+//allou un char* de taille suffisante et renvois la chaine "source/nom" 
+char* path(char* source,char* nom){
+	int taille = strlen(source)+strlen(nom)+2;
+	char* path= (char*)malloc(sizeof(char)*taille);
+	sprintf(path,"%s/%s",source,nom);
+	return path;	
 }
 
