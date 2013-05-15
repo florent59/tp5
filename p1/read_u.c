@@ -67,8 +67,13 @@ int read_u32(int fd, u32 *val){
 
 
 char* read_string(int fd, char *to, int size, int encoding){
-   if(encoding != 0)
-   		size= size / 2 -1; 
+	//size ne peut etre <=0 et plus grand que 500 car un nom de fichier
+	// unix <= 240 
+	//if(size<0 || size>500)
+	//æ	return NULL;
+	//	printf("size==0%d\n",size);
+	 if(encoding != 0)
+   		size= size / 2 ; 
   
     if(!to)
       to= (char*)malloc( sizeof(char) *(1 + size) );  
@@ -76,7 +81,7 @@ char* read_string(int fd, char *to, int size, int encoding){
    
     //verif des parametre de la fonction + si malloc a fonctionnée
 	if(!to | encoding != 1 && encoding != 0 || fd == -1)
-        return NULL; 
+	        return NULL;	 
 			
 	int index=0;
 	if(encoding==0)//acsi
@@ -88,23 +93,23 @@ char* read_string(int fd, char *to, int size, int encoding){
 	}
 	else //unicode
 	{
-        int decalage=0;   
-        u16* val  = (u16*)malloc(sizeof(u16));//pas de verif du retour
+        	int decalage=0;   
+        	u16* val  = (u16*)malloc(sizeof(u16));//pas de verif du retour
 
-		//lecture du BOM        
-        read_u16(fd,val);
-        if(*val == 0XFFFE) 
-            decalage=8;  
+			//lecture du BOM        
+ 	       read_u16(fd,val);
+        	if(*val == 0XFFFE) 
+            		decalage=8;  
 
-        for(index; index< size ;index++)
-        {
-            if(!read_u16(fd,val)) // erreur dans le fichier 
-               return NULL;
+        	for(index; index< size ;index++)
+   	     	{
+	  		if(!read_u16(fd,val)) // erreur dans le fichier 
+               			return NULL;
          
-            *val>>=decalage;
-            *(to+index)= (char)*val;
-        }
-    }
+            		*val>>=decalage;
+          		*(to+index)= (char)*val;
+        	}
+    	}
 	
 	*(to+index)='\0';
 	return to;	
