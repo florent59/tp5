@@ -1,5 +1,5 @@
 CC=gcc
-CFLAG=-W -Wall -ansi -pedantic
+CFLAG=-g -W -Wall -ansi -pedantic
 LDFLAGS=
 EXEC=test
 DIR_P1=p1/

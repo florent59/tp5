@@ -68,12 +68,14 @@ int read_u32(int fd, u32 *val){
 
 char* read_string(int fd, char *to, int size, int encoding){
 	//size ne peut etre <=0 et plus grand que 500 car un nom de fichier
-	// unix <= 240 
-	//if(size<0 || size>500)
-	//æ	return NULL;
-	//	printf("size==0%d\n",size);
+	// unix <= 240
+	//obliger de le préciser sans ça j'ai une erreur de segmentation dans 
+	//les fichier avec erreurs potentiel 00018.mp3 etc 
+	if(size<0|| size>500){
+		return NULL;
+		printf("size==0%d\n",size);}
 	 if(encoding != 0)
-   		size= size / 2 ; 
+   		size= size /2 ; 
   
     if(!to)
       to= (char*)malloc( sizeof(char) *(1 + size) );  
@@ -101,7 +103,7 @@ char* read_string(int fd, char *to, int size, int encoding){
         	if(*val == 0XFFFE) 
             		decalage=8;  
 
-        	for(index; index< size ;index++)
+        	for(index; index< size -1  ;index++)
    	     	{
 	  		if(!read_u16(fd,val)) // erreur dans le fichier 
                			return NULL;

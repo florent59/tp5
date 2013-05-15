@@ -11,6 +11,9 @@ const char *get_file_name(char *buffer, int size, const sort_info_t *info, const
 }
 
 int sort_file(const char* root_folder,const char* source_file){
+	//VERIF QUE LE FICHIER SOURCE_FILE EST BIEN UN MP3
+	if(strcmp(get_file_extension(source_file),".mp3")!=0)
+		return -1;
 	//RECUPERATION DES INFO ID3V2
 	sort_info_t* info= (sort_info_t*) malloc (sizeof(sort_info_t));
 	if(!info){
